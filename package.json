@@ -1,0 +1,11 @@
+{
+  "name": "funjs",
+  "version": "1.0.0",
+  "description": "Small library that contains functions to perform basic  operations on Arrays in a pure functional way",
+  "main": "fun.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Andrés García <andresa.garciah621@gmail.com>",
+  "license": "ISC"
+}
