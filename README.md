@@ -1,11 +1,17 @@
 # List Manipulation In JavaScript (Functional Approach)
 
-This is a little project that I wrote in a couple of hours as a proof of concept. This project pretends to prove that is possible to recreate some of the most important methods in the `Array.prototype` object by just using functional programming ideas such as:
-`Pure Functions`, `Recursion`, `The Head and Tail Pattern`, `Immutability`, `Accumulators` and `Pattern Matching` (Array Destructuring is the closest thing to Pattern Matching in JavaScript).
+This is a little project that I wrote in a couple of hours as a proof of concept. This project pretends to prove that is possible to recreate some of the most important methods in the `Array.prototype` object by just using `Functional Programming` concepts such as:
+
+* `Pure Functions`
+* `Recursion`
+* `The Head and Tail Pattern`
+* `Immutability`
+* `Accumulators`
+* `Pattern Matching` (`Array Destructuring` was the closest thing to Pattern Matching in JavaScript).
 
 ## Constraints
 
-It was not allowed to use any of the following built in features of JavaScript:
+I did not use any of the following built in features of JavaScript:
 
 * Control Flow Constructs (`if..elseif..else`, `switch`, `for`, `while`, `do..while`, `try..catch..final`, etc)
 * Mutable Variables (`var`, `let`)
@@ -38,7 +44,6 @@ Returns the length of the given list.
 
 ```javascript
 export const length = list => _length(list, 0)
-
 const _length = ([_, ...tail], acc) =>
   ![_, ...tail][0] ? acc : _length(tail, acc + 1)
 ```
@@ -64,6 +69,15 @@ export const reduce = ([head, ...tail], acc = 0, fun) =>
 // Using our custom reduce function
 export const map = (list, fun) =>
   reduce(list, [], (acc, val) => [...acc, fun(val)])
+
+// Using a helper function, recursion and an accumulator
+export const map2 = (list, fun) => _map2(list, fun, [])
+const _map2 = ([head, ...tail], fun, acc) =>
+  !length([head, ...tail]) ? acc : _map2(tail, fun, [...acc, fun(head)])
+
+// Another solution
+export const map3 = ([head, ...tail], fun) =>
+  !length([head, ...tail]) ? [] : [fun(head), ...map3(tail, fun)]
 ```
 
 ### Filter
@@ -72,6 +86,17 @@ export const map = (list, fun) =>
 // Using our custom reduce function
 export const filter = (list, fun) =>
   reduce(list, [], (acc, val) => fun(hd(list)) ? [...acc, hd(list)] : acc)
+
+// Using a helper function, recursion and an accumulator
+export const filter2 = (list, fun) => _filter2(list, fun, [])
+const _filter2 = ([head, ...tail], fun, acc) =>
+  !length([head, ...tail]) ? acc : _filter2(tail, fun, fun(head) ? [...acc, head] : acc)
+
+// Another solution
+export const filter3 = ([head, ...tail], fun) =>
+  !length([head, ...tail]) ? [] : (
+    fun(head) ? [head, ...filter3(tail, fun)] : filter3(tail, fun)
+  )
 ```
 
 ### Foreach
